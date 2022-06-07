@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Kiryubot</title>
+    <style>
+        body {
+            background-color: lightblue;
+        }
+        .wallpaper {
+            margin-top: 75px;
+            margin-left: 50px;
+        }
+        .navbar-lightskyblue {
+            background-color: lightskyblue;
+
+        }
+        h1 {
+            color : white;
+            margin-top: -50px;
+            margin-left: 140px;
+            font-size: 36px;
+            font-family: monospace;
+        }
+
+        .Userdialog {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            float: right;
+            color: #aaa;
+        }
+        .Userdialog::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .Chatbotdialog {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            float: left;
+            color: #aaa;
+        }
+
+        .sendmessage {
+            position: fixed;
+            bottom: 8px;
+            width: 300px;
+        }
+
+        #chatbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 20px;
+      }
+      #userInput {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 60px;
+        display: flex;
+        padding: 10px;
+        border-top: var(--border);
+        background: blue;
+      }
+
+      #userInput * {
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        font-size: 1em;
+      }
+
+
+      #textInput {
+        width: 90%;
+        border: none;
+        border-bottom: 3px solid black;
+        font-family: monospace;
+        font-size: 17px;
+      }
+      .userText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+      }
+      .userText .msg-bubble {
+        background-color: #808080;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      .botText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+      }
+      .botText span {
+        background-color: #4169e1;
+        padding: 10px;
+        border-radius: 2px;
+      }
+
+      #just-line-break {
+        white-space: pre-line;
+      }
+
+      #boxed{
+        height: 82%;
+        padding: 0 12px;
+      }
+      .boxed::-webkit-scrollbar {
+    width: 6px;
+      }
+      .boxed::-webkit-scrollbar-track {
+    background: #ddd;
+      }
+      .boxed::-webkit-scrollbar-thumb {
+    background: #bdbdbd;
+      }
+
+      .msg {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+      .msg-img {
+  width: 70px;
+  height: 70px;
+  margin-right: 10px;
+  background: #ddd;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  background-image: url("static/images/Chatop Wallpaper.jpg");
+}
+.msg-bubble {
+  max-width: 450px;
+  padding: 15px;
+  border-radius: 15px;
+  background-color: #808080;
+}
+.msg-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.msg-info-name {
+  margin-right: 10px;
+  font-weight: bold;
+}
+.msg-info-time {
+  font-size: 0.85em;
+}
+
+.left-msg .msg-bubble {
+  border-bottom-left-radius: 0;
+  background-color: #4169e1;
+  color: #fff;
+}
+
+.right-msg {
+  flex-direction: row-reverse;
+}
+.right-msg .msg-bubble {
+  background: var(--right-msg-bg);
+  background-color: #808080;
+  color: #fff;
+  border-bottom-right-radius: 0;
+}
+.right-msg .msg-img {
+  margin: 0 0 0 10px;
+}
+
+.msger-input {
+  flex: 1;
+  background: #fff;
+}
+.msger-send-btn {
+  margin-left: 10px;
+  background-color: green;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+.msger-send-btn:hover {
+  background: rgb(255, 186, 36);
+}
+
+.msger-chat {
+  background-color: #fcfcfe;
+  background-position-x: center;
+  background-position-y: center;
+  background-repeat: no-repeat;
+  }
+ 
+  .msger {
+    display: flex;
+    flex-flow: column wrap;
+    margin-left: 25px;
+    margin-right: 10px;
+    height: calc(100% - 50px);
+    border: var(--border);
+    border-radius: 5px;
+  
+  }
+
+      
+
+    </style>
+</head>
+<body>
+      <section class="msger">
+      <nav class="navbar-lightskyblue">
+        <a class="navbar-brand" href="#" style="margin-left: auto;">
+            <img src="{{ url_for('static' , filename ='images/Chatop Wallpaper.jpg')}}" , alt="Chatop Background Wallpaper" width="100" height="100" style="margin-top: 25px; margin-left: 20px; border-radius: 50%;">
+            
+            <div class="chatbot_name" style="margin-left: 0px;">
+                <h1>Kiryubot</h1>
+            </div>
+        </a>
+    </nav>
+
+    
+    <main class="boxed" style="overflow-y: scroll; scroll-behavior: smooth; background-color: rgb(172, 192, 204); padding: 10px;">
+        <div id="chatbox">
+          <div class="msg left-msg">
+            <div class="msg-img"></div>
+      
+            <div class="msg-bubble">
+              <div class="msg-info">
+                <div class="msg-info-name">Kiryubot</div>
+                <div class="msg-info-time"></div>
+              </div>
+      
+              <div class="msg-text" id="botText">
+                Hello, I'm Kiryubot your personal Assistant laptop Recommendation
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div id="userInput" style="position: static;">
+      <input id="textInput" type="text" name="msg" class="msger-input" placeholder="Enter your message ..." />
+      <!--<input type="image" img src="{{ url_for('static' , filename ='images/Icon send chatbot.png')}}" , alt="submit" width="100" height="100" button onclick="getBotResponse()"/>-->
+      <input type="submit" alt="submit" value="Send" class="msger-send-btn" button onclick="getBotResponse()"/>
+      </div>
+    <script>
+        function getBotResponse() {
+          var bot = "Kiryubot"
+          var rawText = $("#textInput").val();
+          var userHtml = `
+                <div class="msg right-msg">
+                  <div class="msg-info-time" style="margin-left:5px;">${formatDate(new Date())}</div>
+                  <div class="msg-bubble">
+                    <div class="msg-info">
+                        <div class="msg-text">${rawText}</div>
+                  </div>
+                  </div>
+                  </div>`;
+          
+          //var userHtml = `<p class="userText">
+          //                <span>${humanbot}</span>
+          //                <span>${rawText}</span></p>`;
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("userInput")
+            //.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = `
+            <div class="msg left-msg">
+            <div class="msg-img"></div>
+            <div class="msg-bubble">
+                <div class="msg-info">
+                    <div class="msg-info-name">${bot}</div>
+                </div>
+                <div class="msg-text">${data}</div>
+            </div>
+            <div class="msg-info-time" style="margin-left:5px;">${formatDate(new Date())}</div>
+            </div>`;
+            //var botHtml ='<div class="msg-image"></div><p class="botText"><span>' + data + "</span></p>";
+            $("#chatbox").append(botHtml);
+            document
+              .getElementById("userInput")
+              //.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          });
+        }
+
+        function formatDate(date) {
+            const h = "0" + date.getHours();
+            const m = "0" + date.getMinutes();
+    
+            return `${h.slice(-2)}:${m.slice(-2)}`;
+        }
+      </script>
+      </section>
+</body>
+</html>

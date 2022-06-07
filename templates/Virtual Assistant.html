@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <title>Kiryubot</title>
+    <style>
+        body {
+            background-color: lightblue;
+        }
+        .wallpaper {
+            margin-top: 75px;
+            margin-left: 50px;
+        }
+        .navbar-lightskyblue {
+            background-color: lightskyblue;
+
+        }
+        h1 {
+            color : white;
+            margin-top: -50px;
+            margin-left: 140px;
+            font-size: 36px;
+            font-family: monospace;
+        }
+        
+        .boxed {
+            
+            border-color:blue;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .Userdialog {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            float: right;
+            color: #aaa;
+        }
+        .Userdialog::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .Chatbotdialog {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            float: left;
+            color: #aaa;
+        }
+
+        .sendmessage {
+            position: fixed;
+            bottom: 8px;
+            width: 300px;
+        }
+
+      #userInput {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 60px;
+      }
+      #textInput {
+        width: 90%;
+        border: none;
+        border-bottom: 3px solid black;
+        font-family: monospace;
+        font-size: 17px;
+      }
+      .userText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+      }
+      .userText span {
+        background-color: #808080;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      .botText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+      }
+      .botText span {
+        background-color: #4169e1;
+        padding: 10px;
+        border-radius: 2px;
+      }
+
+      #just-line-break {
+        white-space: pre-line;
+      }
+
+      a.nav-link {
+        color: gray;
+        font-size: 18px;
+        padding: 0;
+    }
+
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid #e84118;
+        padding: 2px;
+        flex: none;
+    }
+
+    .card-text {
+        border: 2px solid #ddd;
+        border-radius: 8px;
+    }
+
+    </style>
+</head>
+<body>
+    
+
+  
+    <!--<div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <nav class="navbar-lightskyblue">
+          <img src="Chatop Wallpaper.jpg" , alt="Chatop Background Wallpaper" width="100" height="100" style="margin-top: 25px;border-radius: 50%;">
+        
+          <div class="chatbot_name">
+            <h1>Chatop</h1>
+          </div>
+
+        </nav>
+
+        <div class="boxed">
+          <div>
+            <div id="chatbox">
+              <p class="botText">
+                <span>Hi! I'm Chatop your personal Assistant for laptop Recommendation</span>
+              </p>
+            </div>
+            <div id="userInput">
+              <input id="textInput" type="text" name="msg" placeholder="Message" />
+              <input type="image" img src="Icon send chatbot.png" , alt="submit" width="60" height="40" button onclick="getBotResponse()"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <div class="container mt-4">
+      <div class="card mx-auto" style="max-width:500px">
+          <div class="card-header bg-transparent">
+              <div class="navbar navbar-expand p-0">
+                  <ul class="navbar-nav me-auto align-items-center">
+                      <li class="nav-item">
+                          <a href="#!" class="nav-link">
+                              <div class="position-relative"
+                                  style="width:50px; height: 50px; border-radius: 75%; border: 2px solid blue; padding: 2px">
+                                  <img src= "{{url_for('static', filename = 'images/Chatop Wallpaper.jpg')}}"
+                                      class="img-fluid rounded-circle" alt="bot">
+                                  <span
+                                      class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                      <span class="visually-hidden">New alerts</span>
+                                  </span>
+                              </div>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#!" class="nav-link">Kiryubot</a>
+                      </li>
+                        
+                  </ul>
+                  <a class="nav-link" href="#" style="float:right;">?</a>
+              </div>
+          </div>
+          <div class="card-body p-4" style="height: 500px; overflow: auto;">
+              <div class="d-flex align-items-baseline mb-4">
+                  <div class="pe-2">
+                      <div id="chatbox">
+                          <p class="card card-text d-inline-block p-2 px-3 m-1" style="background-color: rgb(25, 135, 185);color: white;">
+                              <span>Hello I'm Kiryubot your personal Assistant Recommendation laptop</span>
+                          </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+            <div class="card-footer bg-white position-absolute w-100 bottom-0 m-0 p-1">
+              <div class="input-group">
+                  <input id="text" name="msg" type="text" class="form-control border" placeholder="Message">
+                  <input type="image" name="send" img src="{{url_for('static', filename = 'images/Icon send chatbot.png')}}" , alt="submit" width="60" height="40" button onclick="getBotResponse()"/>
+              </div>
+          </div>
+        
+
+          
+      </div>
+  </div>
+
+    <script>
+        function getBotResponse() {
+          var rawText = $("#text").val();
+          var userHtml = '<div class="d-flex align-items-baseline text-end justify-content-end mb-4"><p class="card card-text d-inline-block p-2 px-3 m-1" style="background-color: rgb(56, 96, 161);color: white;"><span>' + rawText + "</span></p></div>";
+          $("#text").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("input-group")
+            .scrollIntoView({ block: "nearest", behavior: "smooth" });
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml ='<p class="card card-text d-inline-block p-2 px-3 m-1" style="background-color: rgb(25, 135, 185);color: white;><span>' + data + "</span></p>";
+            $("#chatbox").append(botHtml);
+            document
+              .getElementById("input-group")
+              .scrollIntoView({ block: "nearest", behavior: "smooth" });
+          });
+        }
+    </script>
+</body>
+</html>

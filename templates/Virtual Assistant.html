@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <title>Kiryubot</title>
     <style>
         body {
@@ -187,7 +185,7 @@
                   <a class="nav-link" href="#" style="float:right;">?</a>
               </div>
           </div>
-          <div class="card-body p-4" style="height: 500px; overflow: auto;">
+          <div class="card-body p-4" style="height: 650px; overflow: auto;">
               <div class="d-flex align-items-baseline mb-4">
                   <div class="pe-2">
                       <div id="chatbox">
@@ -195,7 +193,7 @@
                               <span>Hello I'm Kiryubot your personal Assistant Recommendation laptop</span>
                           </p>
                       </div>
-                  </div>
+                    </div>
               </div>
           </div>
           
@@ -218,14 +216,14 @@
           $("#text").val("");
           $("#chatbox").append(userHtml);
           document
-            .getElementById("input-group")
-            .scrollIntoView({ block: "nearest", behavior: "smooth" });
+            .getElementById("input-group");
+            //.scrollIntoView({ block: "end", behavior: "smooth" });
           $.get("/get", { msg: rawText }).done(function(data) {
-            var botHtml ='<p class="card card-text d-inline-block p-2 px-3 m-1" style="background-color: rgb(25, 135, 185);color: white;><span>' + data + "</span></p>";
+            var botHtml ='<p class="card card-text d-inline-block p-2 px-3 m-1" style="background-color: rgb(25, 135, 185);color: white;"><span>' + data + "</span></p>";
             $("#chatbox").append(botHtml);
             document
-              .getElementById("input-group")
-              .scrollIntoView({ block: "nearest", behavior: "smooth" });
+              .getElementById("input-group");
+              //.scrollIntoView({ block: "end", behavior: "smooth" });
           });
         }
     </script>

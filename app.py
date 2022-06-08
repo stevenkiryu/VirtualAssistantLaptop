@@ -70,15 +70,15 @@ print( decoder_output_data.shape )
 
 # Build LSTM-RNN Encoder-Decoder Model
 encoder_inputs = tf.keras.layers.Input(shape=( maxlen_questions , ))
-encoder_embedding = tf.keras.layers.Embedding( VOCAB_SIZE, 200 , mask_zero=True ) (encoder_inputs)
+encoder_embedding = tf.keras.layers.Embedding( VOCAB_SIZE, 256 , mask_zero=True ) (encoder_inputs)
 
-encoder_outputs , state_h , state_c = tf.keras.layers.RNN(tf.keras.layers.LSTMCell(200) , return_state=True )( encoder_embedding )
+encoder_outputs , state_h , state_c = tf.keras.layers.RNN(tf.keras.layers.LSTMCell(256) , return_state=True )( encoder_embedding )
 encoder_states = [ state_h , state_c ]
 
 decoder_inputs = tf.keras.layers.Input(shape=( maxlen_answers ,  ))
-decoder_embedding = tf.keras.layers.Embedding( VOCAB_SIZE, 200 , mask_zero=True) (decoder_inputs)
+decoder_embedding = tf.keras.layers.Embedding( VOCAB_SIZE, 256 , mask_zero=True) (decoder_inputs)
 
-decoder_rnn = tf.keras.layers.RNN(tf.keras.layers.LSTMCell(200), return_state=True, return_sequences=True)
+decoder_rnn = tf.keras.layers.RNN(tf.keras.layers.LSTMCell(256), return_state=True, return_sequences=True)
 
 decoder_outputs , _ , _ = decoder_rnn ( decoder_embedding , initial_state=encoder_states )
 decoder_dense = tf.keras.layers.Dense( VOCAB_SIZE , activation=tf.keras.activations.softmax ) 
@@ -100,8 +100,8 @@ def make_inference_models():
     
     encoder_model = tf.keras.models.Model(encoder_inputs, encoder_states)
     
-    decoder_state_input_h = tf.keras.layers.Input(shape=( 200 ,))
-    decoder_state_input_c = tf.keras.layers.Input(shape=( 200 ,))
+    decoder_state_input_h = tf.keras.layers.Input(shape=( 256 ,))
+    decoder_state_input_c = tf.keras.layers.Input(shape=( 256 ,))
     
     decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
     
@@ -248,7 +248,7 @@ def click_laptop(selectlaptop):
 
 @app.route("/Kiryubot")
 def Kiryubot():
-    return render_template("Kiryubot.html")
+    return render_template("Virtual Assistant.html")
 
 @app.route("/get")
 def get_bot_response():    

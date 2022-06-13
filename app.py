@@ -16,9 +16,9 @@ question = data.iloc[:,1]
 answer = data.iloc[:,2]
 
 question = [re.sub(r"\[\w+\]",'',q) for q in question]
-question = [" ".join(re.findall(r"\w+",q)) for q in question]
+#question = [" ".join(re.findall(r"\w+",q)) for q in question]
 answer = [re.sub(r"\[\w+\]",'',a) for a in answer]
-answer = [" ".join(re.findall(r"\w+",a)) for a in answer]
+#answer = [" ".join(re.findall(r"\w+",a)) for a in answer]
 
 answers_with_tags = list()
 for i in range( len( answer ) ):
@@ -36,7 +36,7 @@ data_a_virtual = pd.DataFrame(answers, columns = ["Answers"])
 data_list = data_q_virtual.join(data_a_virtual)
 
 
-tokenizer = preprocessing.text.Tokenizer()
+tokenizer = preprocessing.text.Tokenizer(filters='!"#$%&()*+,.:;<=>@\^`{|}~\t\n')
 tokenizer.fit_on_texts( question + answers )
 VOCAB_SIZE = len( tokenizer.word_index )+1
 print( 'VOCAB SIZE : {}'.format( VOCAB_SIZE ))
@@ -162,7 +162,7 @@ def chatbot_response(msg):
                     states_values = [ h , c ] 
 
                 
-                return decoded_translation.replace("end",".")
+                return decoded_translation.replace("end","")
             except KeyError:
                 return "Maaf saya tidak mengerti pertanyaan anda."
             except:
@@ -180,17 +180,28 @@ def index():
     connect_laptop = sql.connect('Dataset Laptop.db')
     print("Yay. Connection Complete")
 
-    select_home_laptop = connect_laptop.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop FROM DatasetLaptoptambahan")
+    select_home_laptop = connect_laptop.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop FROM DatasetLaptop")
 
     row = select_home_laptop.fetchall()
     return render_template('Home.html' , rows = row)
+
+"""
+@app.route("/<search>")
+def searching(search):
+    connect_laptop = sql.connect('Dataset Laptop.db')
+
+    search_laptop = connect_laptop.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop FROM DatasetLaptoptambahan WHERE instr(NamaLaptop, (?))" , (search,))
+
+    row = search_laptop.fetchall()
+    return render_template('Home.html', rows = row)
+"""
 
 @app.route("/ASUS")
 def ASUS():
     connect_laptop_ASUS = sql.connect("Dataset laptop.db")
     print("Yay. Connection ASUS Complete")
 
-    select_ASUS_laptop = connect_laptop_ASUS.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptoptambahan WHERE Merek = 'ASUS'")
+    select_ASUS_laptop = connect_laptop_ASUS.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptop WHERE Merek = 'ASUS'")
 
     row = select_ASUS_laptop.fetchall()
     return render_template("Home.html" , rows = row)
@@ -200,7 +211,7 @@ def MSI():
     connect_laptop_MSI = sql.connect("Dataset laptop.db")
     print("Yay. Connection MSI Complete")
 
-    select_MSI_laptop = connect_laptop_MSI.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptoptambahan WHERE Merek = 'MSI'")
+    select_MSI_laptop = connect_laptop_MSI.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptop WHERE Merek = 'MSI'")
 
     row = select_MSI_laptop.fetchall()
     return render_template("Home.html" , rows = row)
@@ -210,7 +221,7 @@ def Acer():
     connect_laptop_Acer = sql.connect("Dataset laptop.db")
     print("Yay. Connection Acer Complete")
 
-    select_Acer_laptop = connect_laptop_Acer.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptoptambahan WHERE Merek = 'Acer'")
+    select_Acer_laptop = connect_laptop_Acer.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptop WHERE Merek = 'Acer'")
 
     row = select_Acer_laptop.fetchall()
     return render_template("Home.html" , rows = row)
@@ -220,7 +231,7 @@ def Hp():
     connect_laptop_Hp = sql.connect("Dataset laptop.db")
     print("Yay. Connection Hp Complete")
 
-    select_Hp_laptop = connect_laptop_Hp.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptoptambahan WHERE Merek = 'HP'")
+    select_Hp_laptop = connect_laptop_Hp.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptop WHERE Merek = 'HP'")
 
     row = select_Hp_laptop.fetchall()
     return render_template("Home.html" , rows = row)
@@ -230,7 +241,7 @@ def Lenovo():
     connect_laptop_Lenovo = sql.connect("Dataset laptop.db")
     print("Yay. Connection Lenovo Complete")
 
-    select_Lenovo_laptop = connect_laptop_Lenovo.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptoptambahan WHERE Merek = 'Lenovo'")
+    select_Lenovo_laptop = connect_laptop_Lenovo.execute("SELECT NamaLaptop, HargaLaptop, GambarLaptop, Merek FROM DatasetLaptop WHERE Merek = 'Lenovo'")
 
     row = select_Lenovo_laptop.fetchall()
     return render_template("Home.html" , rows = row)
@@ -240,7 +251,7 @@ def click_laptop(selectlaptop):
     connect_laptop_click = sql.connect("Dataset laptop.db")
     print("Welcome to laptop %s" % selectlaptop)
 
-    selected_laptop = connect_laptop_click.execute("SELECT * FROM DatasetLaptoptambahan WHERE NamaLaptop = (?)" , (selectlaptop,))
+    selected_laptop = connect_laptop_click.execute("SELECT * FROM DatasetLaptop WHERE NamaLaptop = (?)" , (selectlaptop,))
 
     row2 = selected_laptop.fetchall()
 
@@ -250,10 +261,17 @@ def click_laptop(selectlaptop):
 def Kiryubot():
     return render_template("Virtual Assistant.html")
 
+@app.route("/ExQuestion")
+def exQuestion():
+    return render_template("ExQuestion.html")
+
 @app.route("/get")
 def get_bot_response():    
     userText = request.args.get('msg') 
-    return str(chatbot_response(userText))
+
+    predict_answer = str(chatbot_response(userText))
+
+    return predict_answer
   
 if __name__ == "__main__":
     app.run()
